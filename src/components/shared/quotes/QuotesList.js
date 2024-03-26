@@ -11,7 +11,8 @@ import {
   Button,
 } from '@mui/material';
 import DashboardCard from '../DashboardCard';
-import { QUOTE_STATUS } from 'src/context/QuotesContext';
+import { QUOTE_STATUS } from 'src/context/Quotes/defs';
+import { formatThousands } from 'src/utils/amount';
 
 export const quoteWithPBG = (q) => {
   const pbg =
@@ -87,7 +88,7 @@ const QuotesList = ({ quotes, title, onAddQuote, onApproveQuote }) => {
                   ></Chip>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">${quote.quote_amount}k</Typography>
+                  <Typography variant="h6">${formatThousands(quote.quote_amount)}k</Typography>
                 </TableCell>
                 <TableCell align="right">
                   <Button color="info" variant="contained" onClick={() => onApproveQuote(quote)}>

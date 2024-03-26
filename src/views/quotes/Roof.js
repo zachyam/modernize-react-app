@@ -1,5 +1,6 @@
 import React from 'react';
-import { QUOTE_TYPES, useQuotesContext } from 'src/context/QuotesContext';
+import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
+import { isBaseQuote, QUOTE_TYPE } from 'src/context/Quotes/defs';
 import QuotesListPage from '../../components/shared/quotes/QuotesList';
 import AddQuoteModal from '../../components/shared/quotes/AddQuoteModal';
 
@@ -8,7 +9,7 @@ const Roof = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { quotes } = useQuotesContext();
-  const products = quotes.filter((q) => q.quote_type == QUOTE_TYPES.ROOF);
+  const products = quotes.filter(isBaseQuote).filter((q) => q.quote_type == QUOTE_TYPE.ROOF);
 
   const handleAddQuote = () => {
     handleOpen();
@@ -18,8 +19,8 @@ const Roof = () => {
     console.log('Approve quote:', quote);
   };
 
-  const handleSaveQuote = () => {
-    console.log('Save new quote');
+  const handleSaveQuote = (q) => {
+    console.log('Save new quote', q);
     handleClose();
   };
 
