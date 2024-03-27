@@ -22,7 +22,7 @@ export const QUOTE_PIPELINE_STATUS = {
 //   status: QUOTE_BASE_STATUS | QUOTE_PIPELINE_STATUS
 //   quote_type:QUOTE_TYPE
 //   quote_amount:number
-//   files?:string[]; //base64 encoded blobs
+//   files?:{data:string//base64 encoded blobs, name:string}[];
 // };
 
 export const isBaseQuote = (q) => Object.values(QUOTE_BASE_STATUS).includes(q.status);

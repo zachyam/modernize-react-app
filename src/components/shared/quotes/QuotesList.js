@@ -56,6 +56,11 @@ const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) =
                   Quote Amount
                 </Typography>
               </TableCell>
+              <TableCell>
+                <Typography variant="subtitle2" fontWeight={600}>
+                  Attachments
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -84,6 +89,11 @@ const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) =
                 </TableCell>
                 <TableCell>
                   <Typography variant="h6">${formatThousands(quote.quote_amount)}k</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">
+                    {quote.files.length > 0 ? quote.files.length : '-'}
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
                   <Box flex>

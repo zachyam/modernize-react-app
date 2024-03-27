@@ -8,7 +8,7 @@ const Kitchen = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { quotes } = useQuotesContext();
+  const { quotes, setQuotes } = useQuotesContext();
   const products = quotes.filter(isBaseQuote).filter((q) => q.quote_type == QUOTE_TYPE.KITCHEN);
 
   const handleApproveQuote = (quoteToApprove) => {
@@ -34,7 +34,6 @@ const Kitchen = () => {
     setQuotes(newQuotes);
     console.log('Unapprove quote:', quoteToUnapprove);
   };
-  console.log(333, { quotes, products });
   return (
     <>
       <BaseQuotesList
@@ -43,11 +42,11 @@ const Kitchen = () => {
         onAddQuoteModal={handleOpen}
         actionBtnRenderer={(q) => {
           return q.quote_status == QUOTE_BASE_STATUS.UNAPPROVED ? (
-            <Button color="error" variant="contained" onClick={(q) => handleApproveQuote(quote)}>
+            <Button color="error" variant="contained" onClick={(q) => handleUnapproveQuote(q)}>
               Unapprove
             </Button>
           ) : (
-            <Button color="info" variant="contained" onClick={(q) => handleUnapproveQuote(quote)}>
+            <Button color="info" variant="contained" onClick={(q) => handleApproveQuote(q)}>
               Approve
             </Button>
           );

@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { initialQuotes } from './initialQuotes';
+import { nanoid } from 'nanoid';
 
 const QuotesContext = createContext({
   quotes: [],
@@ -28,7 +27,7 @@ const QuotesContextProvider = ({ children }) => {
   };
 
   const createQuote = (quote) => {
-    const id = uuidv4();
+    const id = nanoid();
     setQuotesMap((currentQuotesMap) => new Map([...currentQuotesMap, [id, { ...quote, id }]]));
     console.log(222, quote);
   };

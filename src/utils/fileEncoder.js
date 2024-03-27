@@ -6,3 +6,9 @@ export const getBase64 = (file) => {
     reader.onerror = (error) => reject(error);
   });
 };
+export const downloadBase64File = (data, fileName) => {
+  const downloadLink = document.createElement('a');
+  downloadLink.href = data;
+  downloadLink.download = fileName;
+  downloadLink.click();
+};

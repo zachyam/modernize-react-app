@@ -4,6 +4,7 @@ import { Box, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
 import { DeleteQuoteModal } from './QuoteModal';
+import { handleQuoteDownload } from './quoteDownload';
 
 export const QuoteRowOptionsMenu = ({ quote }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,17 +37,17 @@ export const QuoteRowOptionsMenu = ({ quote }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             handleEdit(quote);
             handleClose();
           }}
         >
           Edit
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           onClick={() => {
-            handleDownload(quote);
+            handleQuoteDownload(quote);
             handleClose();
           }}
         >

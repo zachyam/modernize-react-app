@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, Box, Button, Modal, Fade, Backdrop, TextField } from '@mui/material';
 import { QUOTE_BASE_STATUS } from 'src/context/Quotes/defs';
-import { getBase64 } from 'src/utils/fileToB64';
+import { getBase64 } from 'src/utils/fileEncoder';
 import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
 const style = {
   position: 'absolute',
@@ -54,19 +54,37 @@ export const DeleteQuoteModal = ({ open, onClose, handleConfirmDelete }) => (
 const AddQuoteModal = ({ open, onClose, quoteType }) => {
   const [contractor, setContractor] = useState('');
   const [quoteAmount, setQuoteAmount] = useState('');
+
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const { createQuote } = useQuotesContext();
+
+  const resetModal = () => {
+    setContractor('');
+    setQuoteAmount('');
+    setUploadedFiles([]);
+  };
+
   const handleSave = async () => {
+    const files =
+      uploadedFiles.length > 0
+        ? await Promise.all(
+            uploadedFiles.map(async (f) => ({
+              data: await getBase64(f),
+              name: f.name,
+            })),
+          )
+        : [];
     const quoteToSave = {
       contractor,
       status: QUOTE_BASE_STATUS.UNAPPROVED,
       quote_type: quoteType,
       quote_amount: quoteAmount ? parseFloat(quoteAmount).toFixed(2) : 0, // Round to two decimal places
-      files: uploadedFiles > 0 ? await Promise.all(uploadedFiles.map(getBase64)) : [], // assuming encodedFiles is populated
+      files,
     };
-    console.log(111);
+    console.log(111, files);
     createQuote(quoteToSave);
     onClose();
+    resetModal();
   };
   const fileInputRef = React.useRef();
 
@@ -126,7 +144,7 @@ const AddQuoteModal = ({ open, onClose, quoteType }) => {
           <Button variant="contained" sx={{ mt: 2 }} fullWidth onClick={openFileDialog}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-circle-arrow-up"
+              className="icon icon-tabler icon-tabler-circle-arrow-up"
               width="32"
               height="32"
               viewBox="0 0 30 25"
