@@ -9,11 +9,11 @@ import {
   Chip,
   Button,
 } from '@mui/material';
-import DashboardCard from '../DashboardCard';
+import DashboardCard from '../../DashboardCard';
 import { QUOTE_STATUS } from 'src/context/Quotes/defs';
 import { formatThousands } from 'src/utils/amount';
 import { Box, Tooltip } from '@mui/material';
-import { QuoteRowOptionsMenu } from './QuoteRowOptionsMenu';
+import { QuoteRowOptionsMenu } from './RowOptionMenu';
 export const quoteStatusLabelStyle = (q) => {
   const pbg =
     q.status == QUOTE_STATUS.APPROVED

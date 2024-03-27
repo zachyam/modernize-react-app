@@ -3,8 +3,8 @@ import { Typography, Menu, MenuItem, Fade, Modal, Backdrop, Button } from '@mui/
 import { Box, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
-import { DeleteQuoteModal } from './QuoteModal';
-import { handleQuoteDownload } from './quoteDownload';
+import { DeleteQuoteModal } from './Modal';
+import { handleQuoteDownload } from '../quotesDownload';
 
 export const QuoteRowOptionsMenu = ({ quote }) => {
   const [anchorEl, setAnchorEl] = useState(null);
