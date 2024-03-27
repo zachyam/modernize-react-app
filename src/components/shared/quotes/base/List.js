@@ -22,6 +22,8 @@ export const quoteStatusLabelStyle = (q) => {
       ? 'error.main'
       : q.status == QUOTE_STATUS.SCHEDULED_NOT_STARTED
       ? 'secondary.main'
+      : q.status == QUOTE_STATUS.SCHEDULED_STARTED
+      ? 'success.main'
       : '';
   return { ...q, pbg };
 };

@@ -10,7 +10,6 @@ import { QUOTE_STATUS } from 'src/context/Quotes/defs';
 import { isBaseQuote } from 'src/context/Quotes/selectors';
 import { isApprovedNotCompletedQuote } from 'src/context/Quotes/selectors';
 const Approved = () => {
-  const [open, setOpen] = React.useState(false);
   const { quotes, editQuote } = useQuotesContext();
   const products = quotes.filter(isApprovedNotCompletedQuote);
   const handleScheduleQ = (q) => {
