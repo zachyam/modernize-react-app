@@ -23,7 +23,11 @@ export const quoteStatusLabelStyle = (q) => {
       : q.status == QUOTE_STATUS.SCHEDULED_NOT_STARTED
       ? 'secondary.main'
       : q.status == QUOTE_STATUS.SCHEDULED_STARTED
-      ? 'success.main'
+      ? 'success.dark'
+      : q.status == QUOTE_STATUS.COMPLETE_NOT_PAID
+      ? 'info.dark'
+      : q.status == QUOTE_STATUS.COMPLETE_PAID
+      ? 'primary.dark'
       : '';
   return { ...q, pbg };
 };

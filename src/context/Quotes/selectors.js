@@ -15,6 +15,8 @@ export const isScheduledQuote = (q) =>
   [QUOTE_PIPELINE_STATUS.SCHEDULED_NOT_STARTED, QUOTE_PIPELINE_STATUS.SCHEDULED_STARTED].includes(
     q.status,
   );
+export const isCompletedQuote = (q) =>
+  [QUOTE_PIPELINE_STATUS.COMPLETE_NOT_PAID, QUOTE_PIPELINE_STATUS.COMPLETE_PAID].includes(q.status);
 
 export const isApprovedNotCompletedQuote = (q) => {
   return isScheduledQuote(q) || q.status == QUOTE_BASE_STATUS.APPROVED;

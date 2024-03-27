@@ -12,6 +12,7 @@ import { isApprovedNotCompletedQuote } from 'src/context/Quotes/selectors';
 const Scheduled = () => {
   const { quotes, editQuote } = useQuotesContext();
   const products = quotes.filter(isScheduledQuote);
+  console.log(products);
   const handleCompleted = (q) => {
     editQuote(q.id, { ...q, status: QUOTE_PIPELINE_STATUS.COMPLETE_NOT_PAID });
   };
