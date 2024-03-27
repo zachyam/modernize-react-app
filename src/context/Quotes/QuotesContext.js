@@ -33,6 +33,7 @@ const QuotesContextProvider = ({ children }) => {
   };
 
   const editQuote = (id, updatedQuote) => {
+    console.log('editQ', { id, updatedQuote });
     setQuotesMap(
       (currentQuotesMap) =>
         new Map(

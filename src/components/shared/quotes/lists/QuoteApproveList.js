@@ -1,5 +1,6 @@
 import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
-import { isBaseQuote, QUOTE_BASE_STATUS, QUOTE_TYPE } from 'src/context/Quotes/defs';
+import { QUOTE_BASE_STATUS, QUOTE_TYPE } from 'src/context/Quotes/defs';
+import { isBaseQuote } from 'src/context/Quotes/selectors';
 import BaseQuotesList from '../base/List';
 import AddQuoteModal from '../Modal';
 import { Button } from '@mui/material';

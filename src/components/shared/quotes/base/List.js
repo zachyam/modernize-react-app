@@ -20,6 +20,8 @@ export const quoteStatusLabelStyle = (q) => {
       ? 'success.main'
       : q.status == QUOTE_STATUS.UNAPPROVED
       ? 'error.main'
+      : q.status == QUOTE_STATUS.SCHEDULED_NOT_STARTED
+      ? 'secondary.main'
       : '';
   return { ...q, pbg };
 };
@@ -27,9 +29,11 @@ export const quoteStatusLabelStyle = (q) => {
 const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) => {
   return (
     <DashboardCard title={title}>
-      <Button onClick={onAddQuoteModal} variant="contained">
-        Add Quote
-      </Button>
+      {onAddQuoteModal != undefined && (
+        <Button onClick={onAddQuoteModal} variant="contained">
+          Add Quote
+        </Button>
+      )}
 
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
         <Table
