@@ -10,7 +10,7 @@ export const QuotesApproveList = ({ quoteType, quoteTypeLabel }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { quotes, setQuotes } = useQuotesContext();
-  const products = quotes.filter(isBaseQuote).filter((q) => q.quote_type == QUOTE_TYPE.KITCHEN);
+  const products = quotes.filter(isBaseQuote).filter((q) => q.quote_type == quoteType);
 
   const handleApproveQuote = (quoteToApprove) => {
     const newQuotes = products.map((quote) => {
