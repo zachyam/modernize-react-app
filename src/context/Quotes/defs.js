@@ -1,7 +1,7 @@
 export const QUOTE_TYPE = {
-  KITCHEN: 'KITCHEN',
-  ROOF: 'ROOF',
-  BATHROOM: 'BATHROOM',
+  KITCHEN: 'Kitchen',
+  ROOF: 'Roof',
+  BATHROOM: 'Bathroom',
   ///...etc
 };
 

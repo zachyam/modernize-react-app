@@ -24,6 +24,7 @@ const Approved = () => {
       <BaseQuotesList
         quotes={products}
         title={'Approved Quotes'}
+        renderFields={['quote_type']}
         actionBtnRenderer={(q) => {
           return isScheduledQuote(q) ? (
             <Button color="primary" variant="contained" onClick={(e) => handleUnscheduleQ(q)}>

@@ -26,7 +26,15 @@ export const quoteStatusLabelStyle = (q) => {
   return { ...q, pbg };
 };
 
-const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) => {
+const fieldToListLabel = (f) => {
+  // TODO in depth
+  const labelsMap = {
+    quote_type: 'Category',
+  };
+  return labelsMap[f];
+};
+
+const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer, renderFields }) => {
   return (
     <DashboardCard title={title}>
       {onAddQuoteModal != undefined && (
@@ -45,6 +53,16 @@ const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) =
         >
           <TableHead>
             <TableRow>
+              {renderFields?.length &&
+                renderFields?.map((field) => {
+                  return (
+                    <TableCell key={`${field}-label`}>
+                      <Typography variant="subtitle2" fontWeight={600}>
+                        {fieldToListLabel(field)}
+                      </Typography>
+                    </TableCell>
+                  );
+                })}
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
                   Contractor
@@ -69,7 +87,22 @@ const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) =
           </TableHead>
           <TableBody>
             {quotes.map(quoteStatusLabelStyle).map((quote, i) => (
-              <TableRow key={`${i}-${quote.contractor}`}>
+              <TableRow key={`${i}-${quote.id}`}>
+                {renderFields?.length &&
+                  renderFields?.map((field) => {
+                    return (
+                      <TableCell key={`${field}-${quote.id}`}>
+                        <Typography
+                          sx={{
+                            fontSize: '15px',
+                            fontWeight: '500',
+                          }}
+                        >
+                          {quote[field]}
+                        </Typography>
+                      </TableCell>
+                    );
+                  })}
                 <TableCell>
                   <Typography
                     sx={{
