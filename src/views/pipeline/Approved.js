@@ -1,118 +1,43 @@
-
+import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
+import { QUOTE_BASE_STATUS, QUOTE_PIPELINE_STATUS, QUOTE_TYPE } from 'src/context/Quotes/defs';
+import { isScheduledQuote } from 'src/context/Quotes/selectors';
+import BaseQuotesList from '../../components/shared/quotes/base/List';
+import AddQuoteModal from '../../components/shared/quotes/base/Modal';
+import { Button } from '@mui/material';
 import React from 'react';
-import {
-    Typography, Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Chip,
-    Button
-} from '@mui/material';
 import DashboardCard from '../../components/shared/DashboardCard';
-
-const approved = [
-    {
-        category: "Kitchen ",
-        contractor: "Michelle Huang",
-        date_approved: "10/3/24",
-        status_bg: "success.main",
-        status: "Approved",
-    }
-];
-
-
+import { QUOTE_STATUS } from 'src/context/Quotes/defs';
+import { isBaseQuote } from 'src/context/Quotes/selectors';
+import { isApprovedNotCompletedQuote } from 'src/context/Quotes/selectors';
 const Approved = () => {
-    return (
-        <DashboardCard title="Approved">
-            <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
-                <Table
-                    aria-label="simple table"
-                    sx={{
-                        whiteSpace: "nowrap",
-                        mt: 2
-                    }}
-                >
-                    <TableHead>
-                        <TableRow>
-                        <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Category
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Contractor
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Date Approved
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Status
-                                </Typography>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {approved.map((product) => (
-                            <TableRow key={product.name}>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.category}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.contractor}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.date_approved}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Chip
-                                        sx={{
-                                            px: "4px",
-                                            backgroundColor: product.status_bg,
-                                            color: "#fff",
-                                        }}
-                                        size="small"
-                                        label={product.status}
-                                    ></Chip>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button color="info" variant="contained">Schedule</Button>
-
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Box>
-        </DashboardCard>
-    );
+  const { quotes, editQuote } = useQuotesContext();
+  const products = quotes.filter(isApprovedNotCompletedQuote);
+  const handleScheduleQ = (q) => {
+    editQuote(q.id, { ...q, status: QUOTE_PIPELINE_STATUS.SCHEDULED_NOT_STARTED });
+  };
+  const handleUnscheduleQ = (q) => {
+    editQuote(q.id, { ...q, status: QUOTE_BASE_STATUS.APPROVED });
+  };
+  return (
+    <>
+      <BaseQuotesList
+        quotes={products}
+        title={'Approved Quotes'}
+        renderFields={['quote_type']}
+        actionBtnRenderer={(q) => {
+          return isScheduledQuote(q) ? (
+            <Button color="primary" variant="contained" onClick={(e) => handleUnscheduleQ(q)}>
+              Unschedule
+            </Button>
+          ) : (
+            <Button color="success" variant="contained" onClick={(e) => handleScheduleQ(q)}>
+              Schedule
+            </Button>
+          );
+        }}
+      />
+    </>
+  );
 };
 
 export default Approved;

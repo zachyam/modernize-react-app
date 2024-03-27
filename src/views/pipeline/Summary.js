@@ -1,140 +1,43 @@
+import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
+import { QUOTE_BASE_STATUS, QUOTE_PIPELINE_STATUS, QUOTE_TYPE } from 'src/context/Quotes/defs';
+import { isScheduledQuote } from 'src/context/Quotes/selectors';
+import BaseQuotesList from '../../components/shared/quotes/base/List';
+import AddQuoteModal from '../../components/shared/quotes/base/Modal';
+import { Button } from '@mui/material';
 import React from 'react';
-import {
-    Typography, Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Chip,
-    Button
-} from '@mui/material';
 import DashboardCard from '../../components/shared/DashboardCard';
-
-const all = [
-    {
-        category: "Kitchen",
-        contractor: "Michelle Huang",
-        date_start: "12/3/24",
-        date_end: "12/10/24",
-        status_bg: "error.main",
-        status: "Not Started",
-    },
-    {
-        category: "Bathroom",
-        contractor: "Zach Yam",
-        date_start: "10/5/24",
-        date_end: "12/10/24",
-        status_bg: "success.main",
-        status: "Started",
-    }
-];
-
-
+import { QUOTE_STATUS } from 'src/context/Quotes/defs';
+import { isBaseQuote } from 'src/context/Quotes/selectors';
+import { isApprovedNotCompletedQuote } from 'src/context/Quotes/selectors';
 const Summary = () => {
-    return (
-        <DashboardCard title="Summary">
-            <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
-                {/* <Table
-                    aria-label="simple table"
-                    sx={{
-                        whiteSpace: "nowrap",
-                        mt: 2
-                    }}
-                >
-                    <TableHead>
-                        <TableRow>
-                        <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Category
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Contractor
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Date Start
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Projected Date End
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                                <Typography variant="subtitle2" fontWeight={600}>
-                                    Status
-                                </Typography>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {all.map((product) => (
-                            <TableRow key={product.name}>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.category}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.contractor}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.date_start}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "15px",
-                                            fontWeight: "500",
-                                        }}
-                                    >
-                                        {product.date_end}
-                                    </Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Chip
-                                        sx={{
-                                            px: "4px",
-                                            backgroundColor: product.status_bg,
-                                            color: "#fff",
-                                        }}
-                                        size="small"
-                                        label={product.status}
-                                    ></Chip>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Button color="info" variant="contained">Mark Complete</Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table> */}
-            </Box>
-        </DashboardCard>
-    );
+  const { quotes, editQuote } = useQuotesContext();
+  const products = quotes.filter((q) => q.status != QUOTE_BASE_STATUS.UNAPPROVED);
+  //   console.log(products);
+  //   const handleCompleted = (q) => {
+  //     editQuote(q.id, { ...q, status: QUOTE_PIPELINE_STATUS.COMPLETE_NOT_PAID });
+  //   };
+  //   const handleStarted = (q) => {
+  //     editQuote(q.id, { ...q, status: QUOTE_PIPELINE_STATUS.SCHEDULED_STARTED });
+  //   };
+  return (
+    <>
+      <BaseQuotesList
+        quotes={products}
+        title={'Quotes Summary'}
+        renderFields={['quote_type']}
+        actionBtnRenderer={(q) => {
+          //   return q.status == QUOTE_PIPELINE_STATUS.SCHEDULED_STARTED ? (
+          //     <Button color="primary" variant="contained" onClick={(e) => handleCompleted(q)}>
+          //       Mark As Complete
+          //     </Button>
+          //   ) : (
+          //     <Button color="success" variant="contained" onClick={(e) => handleStarted(q)}>
+          //       Start
+          //     </Button>
+          //   );
+        }}
+      />
+    </>
+  );
 };
-
 export default Summary;
