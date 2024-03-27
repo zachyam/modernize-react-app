@@ -3,6 +3,7 @@ import { isBaseQuote, QUOTE_BASE_STATUS, QUOTE_TYPE } from 'src/context/Quotes/d
 import BaseQuotesList from '../base/List';
 import AddQuoteModal from '../Modal';
 import { Button } from '@mui/material';
+import React from 'react';
 
 export const QuotesApproveList = ({ quoteType, quoteTypeLabel }) => {
   const [open, setOpen] = React.useState(false);
