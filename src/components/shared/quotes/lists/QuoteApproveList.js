@@ -2,7 +2,7 @@ import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
 import { QUOTE_BASE_STATUS, QUOTE_TYPE } from 'src/context/Quotes/defs';
 import { isBaseQuote } from 'src/context/Quotes/selectors';
 import BaseQuotesList from '../base/List';
-import AddQuoteModal from '../Modal';
+import AddQuoteModal from '../base/Modal';
 import { Button } from '@mui/material';
 import React from 'react';
 
