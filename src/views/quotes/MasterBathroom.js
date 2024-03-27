@@ -1,8 +1,8 @@
 import React from 'react';
 import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
 import { isBaseQuote, QUOTE_TYPE } from 'src/context/Quotes/defs';
-import QuotesListPage from '../../components/shared/quotes/QuotesList';
-import AddQuoteModal from '../../components/shared/quotes/AddQuoteModal';
+import BaseQuotesList from '../../components/shared/quotes/QuotesList';
+import AddQuoteModal from '../../components/shared/quotes/QuoteModal';
 
 const MasterBathroom = () => {
   const [open, setOpen] = React.useState(false);
@@ -26,13 +26,13 @@ const MasterBathroom = () => {
 
   return (
     <>
-      <QuotesListPage
+      <BaseQuotesList
         quotes={products}
         title="Master Bathroom Quotes"
-        onAddQuote={handleAddQuote}
+        onAddQuoteModal={handleOpen}
         onApproveQuote={handleApproveQuote}
       />
-      <AddQuoteModal open={open} onClose={handleClose} onSave={handleSaveQuote} />
+      <AddQuoteModal open={open} onClose={handleClose} quoteType={QUOTE_TYPE.BATHROOM} />
     </>
   );
 };

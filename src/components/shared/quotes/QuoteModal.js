@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Box, Button, Modal, Fade, Backdrop, TextField } from '@mui/material';
 import { QUOTE_BASE_STATUS } from 'src/context/Quotes/defs';
 import { getBase64 } from 'src/utils/fileToB64';
+import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -13,21 +14,59 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+export const DeleteQuoteModal = ({ open, onClose, handleConfirmDelete }) => (
+  <Modal
+    open={open}
+    closeAfterTransition
+    slots={{ backdrop: Backdrop }}
+    slotProps={{
+      backdrop: {
+        timeout: 500,
+      },
+    }}
+  >
+    <Fade in={open}>
+      <Box sx={style}>
+        <Typography id="transition-modal-title" variant="h6" component="h2">
+          Are you sure you want to delete this quote?
+        </Typography>
+        <Typography id="simple-modal-description" variant="body2">
+          This action cannot be undone.
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ width: '48%', mt: 2 }}
+            onClick={handleConfirmDelete}
+          >
+            Delete
+          </Button>
+          <Button onClick={onClose} variant="contained" color="error" sx={{ width: '48%', mt: 2 }}>
+            Cancel
+          </Button>
+        </Box>
+      </Box>
+    </Fade>
+  </Modal>
+);
 
-const AddQuoteModal = ({ open, onClose, onSave }) => {
+const AddQuoteModal = ({ open, onClose, quoteType }) => {
   const [contractor, setContractor] = useState('');
   const [quoteAmount, setQuoteAmount] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  console.log({ uploadedFiles });
+  const { createQuote } = useQuotesContext();
   const handleSave = async () => {
     const quoteToSave = {
       contractor,
       status: QUOTE_BASE_STATUS.UNAPPROVED,
+      quote_type: quoteType,
       quote_amount: quoteAmount ? parseFloat(quoteAmount).toFixed(2) : 0, // Round to two decimal places
       files: uploadedFiles > 0 ? await Promise.all(uploadedFiles.map(getBase64)) : [], // assuming encodedFiles is populated
     };
-
-    onSave(quoteToSave);
+    console.log(111);
+    createQuote(quoteToSave);
+    onClose();
   };
   const fileInputRef = React.useRef();
 
@@ -91,7 +130,7 @@ const AddQuoteModal = ({ open, onClose, onSave }) => {
               width="32"
               height="32"
               viewBox="0 0 30 25"
-              strokewidth="1.5"
+              strokeWidth="1.5"
               stroke="#2c3e50"
               fill="none"
               strokeLinecap="round"
@@ -115,7 +154,6 @@ const AddQuoteModal = ({ open, onClose, onSave }) => {
             />
           </Button>
           {uploadedFiles.map((file, index) => {
-            console.log(file, index);
             return (
               <Box
                 key={index}

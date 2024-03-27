@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Typography,
-  Box,
   Table,
   TableBody,
   TableCell,
@@ -13,8 +12,9 @@ import {
 import DashboardCard from '../DashboardCard';
 import { QUOTE_STATUS } from 'src/context/Quotes/defs';
 import { formatThousands } from 'src/utils/amount';
-
-export const quoteWithPBG = (q) => {
+import { Box, Tooltip } from '@mui/material';
+import { QuoteRowOptionsMenu } from './QuoteRowOptionsMenu';
+export const quoteStatusLabelStyle = (q) => {
   const pbg =
     q.status == QUOTE_STATUS.APPROVED
       ? 'success.main'
@@ -24,10 +24,10 @@ export const quoteWithPBG = (q) => {
   return { ...q, pbg };
 };
 
-const QuotesList = ({ quotes, title, onAddQuote, onApproveQuote }) => {
+const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer }) => {
   return (
     <DashboardCard title={title}>
-      <Button onClick={onAddQuote} variant="contained">
+      <Button onClick={onAddQuoteModal} variant="contained">
         Add Quote
       </Button>
 
@@ -56,15 +56,10 @@ const QuotesList = ({ quotes, title, onAddQuote, onApproveQuote }) => {
                   Quote Amount
                 </Typography>
               </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Download quote
-                </Typography>
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {quotes.map(quoteWithPBG).map((quote, i) => (
+            {quotes.map(quoteStatusLabelStyle).map((quote, i) => (
               <TableRow key={`${i}-${quote.contractor}`}>
                 <TableCell>
                   <Typography
@@ -91,9 +86,29 @@ const QuotesList = ({ quotes, title, onAddQuote, onApproveQuote }) => {
                   <Typography variant="h6">${formatThousands(quote.quote_amount)}k</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Button color="info" variant="contained" onClick={() => onApproveQuote(quote)}>
-                    Approve
-                  </Button>
+                  <Box flex>
+                    {actionBtnRenderer(quote)}
+                    <QuoteRowOptionsMenu quote={quote} />
+                    {/* <Tooltip
+                      arrow
+                      children={
+                        <Box
+                          sx={{
+                            flexDirection: 'column',
+                            bgcolor: 'white',
+                            color: 'black',
+                          }}
+                        >
+                          <Button onClick={() => handleEdit(quote)}>Edit</Button>
+                          <Button onClick={() => handleDownload(quote)}>Download</Button>
+                        </Box>
+                      }
+                    >
+                      <IconButton>
+                        <MoreVertIcon />
+                      </IconButton>
+                    </Tooltip> */}
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}
@@ -104,4 +119,4 @@ const QuotesList = ({ quotes, title, onAddQuote, onApproveQuote }) => {
   );
 };
 
-export default QuotesList;
+export default BaseQuotesList;

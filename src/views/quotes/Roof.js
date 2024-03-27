@@ -1,14 +1,14 @@
 import React from 'react';
 import { useQuotesContext } from 'src/context/Quotes/QuotesContext';
 import { isBaseQuote, QUOTE_TYPE } from 'src/context/Quotes/defs';
-import QuotesListPage from '../../components/shared/quotes/QuotesList';
-import AddQuoteModal from '../../components/shared/quotes/AddQuoteModal';
+import BaseQuotesList from '../../components/shared/quotes/QuotesList';
+import AddQuoteModal from '../../components/shared/quotes/QuoteModal';
 
 const Roof = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { quotes } = useQuotesContext();
+  const { quotes, setQuotes } = useQuotesContext();
   const products = quotes.filter(isBaseQuote).filter((q) => q.quote_type == QUOTE_TYPE.ROOF);
 
   const handleAddQuote = () => {
@@ -20,19 +20,20 @@ const Roof = () => {
   };
 
   const handleSaveQuote = (q) => {
+    setQuotes([...quotes, q]);
     console.log('Save new quote', q);
     handleClose();
   };
 
   return (
     <>
-      <QuotesListPage
+      <BaseQuotesList
         quotes={products}
         title="Roof Quotes"
-        onAddQuote={handleAddQuote}
+        onAddQuoteModal={handleOpen}
         onApproveQuote={handleApproveQuote}
       />
-      <AddQuoteModal open={open} onClose={handleClose} onSave={handleSaveQuote} />
+      <AddQuoteModal open={open} onClose={handleClose} quoteType={QUOTE_TYPE.ROOF} />
     </>
   );
 };

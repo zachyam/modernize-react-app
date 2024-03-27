@@ -17,10 +17,11 @@ export const QUOTE_PIPELINE_STATUS = {
 };
 
 // type QuoteDef = {
-//   contractor: string,
-//   status: QUOTE_BASE_STATUS | QUOTE_PIPELINE_STATUS,
+//   id:string
+//   contractor: string
+//   status: QUOTE_BASE_STATUS | QUOTE_PIPELINE_STATUS
 //   quote_type:QUOTE_TYPE
-//   quote_amount:number;
+//   quote_amount:number
 //   files?:string[]; //base64 encoded blobs
 // };
 
