@@ -63,7 +63,7 @@ const Header = (props) => {
         </IconButton>
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-          <Button variant="contained" color="primary"  target="_blank" href="https://adminmart.com/product/modernize-react-mui-dashboard-template/">
+          <Button variant="contained" color="primary" >
             Upgrade to Pro
           </Button>
           <Profile />

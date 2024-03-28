@@ -1,6 +1,6 @@
 import {
   IconAperture, IconCopy, IconLogin, IconMoodHappy, IconTypography, IconUserPlus, IconClipboardCheck, IconBath, IconToolsKitchen2, IconBuildingWarehouse,
-  IconCalendarTime, IconThumbUp, IconAddressBook
+  IconCalendarTime, IconThumbUp, IconAddressBook, IconPaint, IconBed, IconDeviceTv, IconPool
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -28,6 +28,30 @@ const Menuitems = [
     title: 'Master Bathroom',
     icon: IconBath,
     href: '/quotes/masterbathroom',
+  },
+  {
+    id: uniqueId(),
+    title: 'Painting',
+    icon: IconPaint,
+    href: '/quotes/painting',
+  },
+  {
+    id: uniqueId(),
+    title: 'Master Bedroom',
+    icon: IconBed,
+    href: '/quotes/masterbedroom',
+  }, 
+  {
+    id: uniqueId(),
+    title: 'Living Room',
+    icon: IconDeviceTv,
+    href: '/quotes/livingroom',
+  },
+  {
+    id: uniqueId(),
+    title: 'Pool',
+    icon: IconPool,
+    href: '/quotes/pool',
   },
   {
     navlabel: true,

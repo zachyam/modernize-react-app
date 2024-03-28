@@ -78,7 +78,7 @@ const AddQuoteModal = ({ open, onClose, quoteType }) => {
       contractor,
       status: QUOTE_BASE_STATUS.UNAPPROVED,
       quote_type: quoteType,
-      quote_amount: quoteAmount ? parseFloat(quoteAmount).toFixed(2) : 0, // Round to two decimal places
+      quote_amount: quoteAmount ? quoteAmount : 0, // Round to two decimal places
       files,
     };
     console.log(111, files);
