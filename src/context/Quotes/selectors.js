@@ -1,14 +1,5 @@
 import { QUOTE_BASE_STATUS, QUOTE_PIPELINE_STATUS, QUOTE_TYPE } from './defs';
 
-// type QuoteDef = {
-//   id:string
-//   contractor: string
-//   status: QUOTE_BASE_STATUS | QUOTE_PIPELINE_STATUS
-//   quote_type:QUOTE_TYPE
-//   quote_amount:number
-//   files?:{data:string//base64 encoded blobs, name:string}[];
-// };
-
 export const isBaseQuote = (q) => Object.values(QUOTE_BASE_STATUS).includes(q.status);
 export const isPipelineQuote = (q) => Object.values(QUOTE_PIPELINE_STATUS).includes(q.status);
 export const isScheduledQuote = (q) =>

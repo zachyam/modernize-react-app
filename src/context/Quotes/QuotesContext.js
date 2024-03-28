@@ -1,5 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { nanoid } from 'nanoid';
+import {
+  getQuotesFromIndexedDB,
+  addQuoteToIndexedDB,
+  updateQuoteInIndexedDB,
+  deleteQuoteFromIndexedDB,
+} from './db';
 
 const QuotesContext = createContext({
   quotes: [],
@@ -8,17 +14,22 @@ const QuotesContext = createContext({
   editQuote: (id, q) => {},
   removeQuote: (id) => {},
 });
-const LOCAL_STORAGE_KEY = 'quotes';
-const QuotesContextProvider = ({ children }) => {
-  const [quotesMap, setQuotesMap] = useState(() => {
-    const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return localData ? new Map(JSON.parse(localData)) : new Map();
-  });
 
-  const quotes = Array.from(quotesMap.values());
+const QuotesContextProvider = ({ children }) => {
+  const [quotesMap, setQuotesMap] = useState(new Map());
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(Array.from(quotesMap.entries())));
-  }, [quotesMap]);
+    getQuotesFromIndexedDB().then(setQuotesMap);
+  }, []);
+
+  const quotes = Array.from([...quotesMap.values()]); // Use spread operator to convert values to array
+
+  // useEffect(() => {
+  //   const updateQuotesInDB = async () => {
+  //     await addQuoteToIndexedDB([...quotesMap.values()]);
+  //   };
+  //   updateQuotesInDB();
+  // }, [quotesMap]);
+
   const setQuotes = (newQuotes) => {
     setQuotesMap(
       (currentQuotesMap) =>
@@ -26,14 +37,14 @@ const QuotesContextProvider = ({ children }) => {
     );
   };
 
-  const createQuote = (quote) => {
+  const createQuote = async (quote) => {
     const id = nanoid();
+    await addQuoteToIndexedDB(id, quote);
     setQuotesMap((currentQuotesMap) => new Map([...currentQuotesMap, [id, { ...quote, id }]]));
-    console.log(222, quote);
   };
 
-  const editQuote = (id, updatedQuote) => {
-    console.log('editQ', { id, updatedQuote });
+  const editQuote = async (id, updatedQuote) => {
+    await updateQuoteInIndexedDB(id, updatedQuote);
     setQuotesMap(
       (currentQuotesMap) =>
         new Map(
@@ -44,12 +55,12 @@ const QuotesContextProvider = ({ children }) => {
     );
   };
 
-  const removeQuote = (id) => {
+  const removeQuote = async (id) => {
+    await deleteQuoteFromIndexedDB(id);
     setQuotesMap(
       (currentQuotesMap) => new Map([...currentQuotesMap].filter(([quoteId]) => quoteId !== id)),
     );
   };
-  console.log({ quotesMap, quotes });
 
   return (
     <QuotesContext.Provider value={{ quotes, setQuotes, createQuote, editQuote, removeQuote }}>
