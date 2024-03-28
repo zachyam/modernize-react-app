@@ -4,6 +4,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
+const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
 const Roof = Loadable(lazy(() => import('../views/quotes/Roof')))
@@ -41,6 +42,7 @@ const Router = [
   },
   {
     path: '/auth',
+    element: <BlankLayout />,
     children: [
       { path: '404', element: <Error /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
