@@ -6,7 +6,7 @@ const { base64toFile, escapeWinAnsi } = require('src/utils/fileEncoder');
 const imagesPerPage = 4;
 async function appendFileToPDF(pdfDoc, page, f, fileIndex) {
   const fileData = await base64toFile(f);
-  console.log(fileData);
+  // console.log(fileData);
   const extension = f.name.split('.').pop();
 
   switch (extension) {
@@ -153,50 +153,114 @@ async function addImageToPDF(pdfDoc, file) {
 // }
 
 async function addExcelToPDF(pdfDoc, file) {
-  const workbook = xlsx.read(file, { type: 'buffer' });
-  const sheetName = workbook.SheetNames[0];
-  const sheet = workbook.Sheets[sheetName];
-  const sheetData = xlsx.utils.sheet_to_json(sheet, { header: 1 });
-  const page = pdfDoc.addPage();
-  const { width, height } = page.getSize();
-  const tableWidth = width - 40;
-  const cellWidth = tableWidth / sheetData[0].length;
-  let yPos = height - 20;
-  for (const row of sheetData) {
-    let xPos = 20;
-    for (const cell of row) {
-      page.drawText(String(cell), { x: xPos, y: yPos, size: 12 });
-      xPos += cellWidth;
+  const workbook = xlsx.read(file.buff, { type: 'buffer' });
+  let pageNum = 0;
+  const sheets = Object.values(workbook.Sheets);
+  for (const sheetI in sheets) {
+    const sheet = sheets[sheetI];
+    const sheetName = workbook.SheetNames[sheetI];
+    const sheetData = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+    pageNum += 1;
+    const page = pdfDoc.addPage();
+    const { width, height } = page.getSize();
+    page.drawText(`${file.name} / ${sheetName}   -   ${pageNum}`, {
+      x: 20,
+      y: height - 20,
+      size: 12,
+    });
+    const tableWidth = width - 40;
+    let rowLen = 0;
+    for (let i = 0; i < sheetData.length; i++) {
+      if (sheetData[i].length > rowLen) {
+        rowLen = sheetData[i].length;
+      }
     }
-    yPos -= 20;
-    if (yPos < 20) {
-      yPos = height - 20;
-      page.addPage();
+    const cellWidth = tableWidth / rowLen;
+    let yPos = height - 40;
+    let rowsPerPage = Math.floor((height - 40) / 20);
+    const size = 12;
+    let currRow = 0;
+    for (const row of sheetData) {
+      let xPos = 20;
+      if (currRow >= rowsPerPage) {
+        pageNum += 1;
+        currRow = 0;
+        yPos = height - 40;
+        page.addPage();
+        page.drawText(`${file.name} - ${pageNum}`, {
+          x: 20,
+          y: height - 20,
+          size: 12,
+        });
+      }
+      for (const cell of row) {
+        const maxChars = Math.floor(cellWidth / (size * 0.6));
+        page.drawText(escapeWinAnsi(cell).slice(0, maxChars), {
+          x: xPos,
+          y: yPos,
+          size,
+          width: cellWidth,
+          lineGap: 0,
+          overflow: 'hidden',
+          maxWidth: cellWidth,
+          wordBreaks: [' '],
+        });
+
+        xPos += cellWidth;
+      }
+      yPos -= 20;
+      currRow++;
     }
   }
 }
-
 async function addCSVToPDF(pdfDoc, file) {
-  // console.log('csv', file);
-
   const csvData = await readCSV(file.blob);
   let page = pdfDoc.addPage();
+  let pageNum = 1;
   const { width, height } = page.getSize();
+  page.drawText(`${file.name}   -   ${pageNum}`, {
+    x: 20,
+    y: height - 20,
+    size: 12,
+  });
   const tableWidth = width - 40;
-  const cellWidth = tableWidth / Object.keys(csvData[0]).length;
-  let yPos = height - 20;
+  let rowLen = Object.keys(csvData[0]).length;
+
+  const cellWidth = tableWidth / rowLen;
+  let yPos = height - 40;
+  let rowsPerPage = Math.floor((height - 40) / 20);
+  const size = 12;
+  let currRow = 0;
   for (const row of csvData) {
     let xPos = 20;
-    for (const cell of Object.values(row)) {
-      // console.log({ cell, row });
-      page.drawText(escapeWinAnsi(cell), { x: xPos, y: yPos, size: 12 });
+    if (currRow >= rowsPerPage) {
+      pageNum += 1;
+      currRow = 0;
+      yPos = height - 40;
+      page = pdfDoc.addPage();
+      page.drawText(`${file.name} - ${pageNum}`, {
+        x: 20,
+        y: height - 20,
+        size: 12,
+      });
+    }
+    for (const cell of row) {
+      const maxChars = Math.floor(cellWidth / (size * 0.6));
+      page.drawText(escapeWinAnsi(cell).slice(0, maxChars), {
+        x: xPos,
+        y: yPos,
+        size,
+        width: cellWidth,
+        lineGap: 0,
+        overflow: 'hidden',
+        maxWidth: cellWidth,
+        wordBreaks: [' '],
+      });
+
       xPos += cellWidth;
     }
     yPos -= 20;
-    if (yPos < 20) {
-      yPos = height - 20;
-      pdfDoc.addPage();
-    }
+    currRow++;
   }
 }
 
@@ -213,22 +277,32 @@ async function readCSV(blob) {
     });
   });
 }
-
+import * as html2pdf from 'html2pdf.js';
 async function addDocToPDF(pdfDoc, file) {
-  const htmlString = await convertToHtml({ arrayBuffer: file.buff }).catch(console.log);
-  const page = pdfDoc.addPage();
-  const { width, height } = page.getSize();
-  const lines = htmlString?.value?.split('\n');
-  console.log({ htmlString, lines });
-  let yPos = height - 20;
-  for (const line of lines) {
-    page.drawText(line, { x: 20, y: yPos, size: 12 });
-    yPos -= 20;
-    if (yPos < 20) {
-      yPos = height - 20;
-      page.addPage();
-    }
-  }
+  const htmlString = await convertToHtml({
+    arrayBuffer: file.buff,
+    convertParagraphStyles: false,
+  }).catch(console.log);
+  const pdfBuff = await html2pdf()
+    .from(htmlString.value)
+    .set({
+      filename: file.name.split('.').slice(0, -1).join('.') + '.pdf',
+      jsPDF: {
+        orientation: 'portrait',
+      },
+      margin: 8,
+      image: {
+        type: 'png',
+        quality: 0.98,
+      },
+      html2canvas: {
+        scale: 2,
+      },
+    })
+    .outputPdf('arraybuffer');
+  const sourcePdf = await PDFDocument.load(pdfBuff);
+  const copiedPages = await pdfDoc.copyPages(sourcePdf, sourcePdf.getPageIndices());
+  copiedPages.forEach((page) => pdfDoc.addPage(page));
 }
 
 async function addPDFToPDF(pdfDoc, file) {

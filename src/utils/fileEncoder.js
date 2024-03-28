@@ -13,8 +13,8 @@ export const downloadBase64File = (data, fileName) => {
   downloadLink.click();
 };
 
-export function escapeWinAnsi(text) {
-  return text.replace(/[\u0080-\uffff]/g, (char) => '');
+export function escapeWinAnsi(text = '') {
+  return text?.toString()?.replace(/[\u0080-\uffff]/g, (char) => '');
 }
 
 export const base64toFile = async ({ data, name }) => {
