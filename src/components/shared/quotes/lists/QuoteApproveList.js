@@ -41,7 +41,11 @@ export const QuotesApproveList = ({ quoteType, quoteTypeLabel }) => {
       <BaseQuotesList
         quotes={products}
         title={quoteTypeLabel}
-        onAddQuoteModal={handleOpen}
+        mainButton={
+          <Button onClick={handleOpen} variant="contained">
+            Add Quote
+          </Button>
+        }
         actionBtnRenderer={(q) => {
           return q.status == QUOTE_BASE_STATUS.APPROVED ? (
             <Button color="error" variant="contained" onClick={(e) => handleUnapproveQuote(q)}>

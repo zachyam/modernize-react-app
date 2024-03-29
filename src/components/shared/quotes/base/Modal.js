@@ -81,7 +81,6 @@ const AddQuoteModal = ({ open, onClose, quoteType }) => {
       quote_amount: quoteAmount ? quoteAmount : 0, // Round to two decimal places
       files,
     };
-    console.log(111, files);
     createQuote(quoteToSave);
     onClose();
     resetModal();
@@ -167,7 +166,7 @@ const AddQuoteModal = ({ open, onClose, quoteType }) => {
               type="file"
               hidden
               multiple
-              accept=".pdf,.xlsx,.csv,image/*" // Accepts PDF, XLSX, CSV and all image formats
+              accept=".pdf,.xlsx,.xls,.docx,.doc,.csv,image/*" // Accepts PDF, XLSX, CSV and all image formats
               onChange={(event) => setUploadedFiles([...uploadedFiles, ...event.target.files])}
             />
           </Button>

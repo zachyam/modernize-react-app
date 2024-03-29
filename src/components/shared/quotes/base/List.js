@@ -39,14 +39,10 @@ const fieldToListLabel = (f) => {
   return labelsMap[f];
 };
 
-const BaseQuotesList = ({ quotes, title, onAddQuoteModal, actionBtnRenderer, renderFields }) => {
+const BaseQuotesList = ({ quotes, title, mainButton, actionBtnRenderer, renderFields }) => {
   return (
     <DashboardCard title={title}>
-      {onAddQuoteModal != undefined && (
-        <Button onClick={onAddQuoteModal} variant="contained">
-          Add Quote
-        </Button>
-      )}
+      {mainButton}
 
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
         <Table

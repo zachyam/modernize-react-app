@@ -1,3 +1,12 @@
+// type QuoteDef = {
+//   id:string
+//   contractor: string
+//   status: QUOTE_BASE_STATUS | QUOTE_PIPELINE_STATUS
+//   quote_type:QUOTE_TYPE
+//   quote_amount:number
+//   files?:{data:string//base64 encoded blobs, name:string}[];
+// };
+
 export const QUOTE_TYPE = {
   KITCHEN: 'Kitchen',
   ROOF: 'Roof',
