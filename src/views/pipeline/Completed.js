@@ -9,7 +9,8 @@ import DashboardCard from '../../components/shared/DashboardCard';
 import { QUOTE_STATUS } from 'src/context/Quotes/defs';
 import { isBaseQuote } from 'src/context/Quotes/selectors';
 import { isApprovedNotCompletedQuote } from 'src/context/Quotes/selectors';
-const Scheduled = () => {
+
+const Completed = () => {
   const { quotes, editQuote } = useQuotesContext();
   const products = quotes.filter(isCompletedQuote);
   const handlePaid = (q) => {
@@ -25,7 +26,7 @@ const Scheduled = () => {
     <>
       <BaseQuotesList
         quotes={products}
-        title={'Scheduled Quotes'}
+        title={'Completed'}
         renderFields={['quote_type']}
         actionBtnRenderer={(q) => {
           return q.status == QUOTE_PIPELINE_STATUS.COMPLETE_NOT_PAID ? (
@@ -54,4 +55,4 @@ const Scheduled = () => {
     </>
   );
 };
-export default Scheduled;
+export default Completed;

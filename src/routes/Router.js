@@ -10,13 +10,11 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 const Roof = Loadable(lazy(() => import('../views/quotes/Roof')))
 const Kitchen = Loadable(lazy(() => import('../views/quotes/Kitchen')))
 const MasterBathroom = Loadable(lazy(() => import('../views/quotes/MasterBathroom')))
-const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
-const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
-const TypographyPage = Loadable(lazy(() => import('../views/pipeline/TypographyPage')))
-const Shadow = Loadable(lazy(() => import('../views/pipeline/Shadow')))
+const MasterBedroom = Loadable(lazy(() => import('../views/quotes/MasterBedroom')))
+const LivingRoom = Loadable(lazy(() => import('../views/quotes/LivingRoom')))
+const Painting = Loadable(lazy(() => import('../views/quotes/Painting')))
+const Pool = Loadable(lazy(() => import('../views/quotes/Pool')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
-const Register = Loadable(lazy(() => import('../views/authentication/Register')));
-const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const Approved = Loadable(lazy(() => import('../views/pipeline/Approved.js')));
 const Scheduled = Loadable(lazy(() => import('../views/pipeline/Scheduled')));
 const Completed = Loadable(lazy(() => import('../views/pipeline/Completed')));
@@ -31,10 +29,10 @@ const Router = [
       { path: '/quotes/roof', exact: true, element: <Roof /> },
       { path: '/quotes/kitchen', exact: true, element: <Kitchen /> },
       { path: '/quotes/masterbathroom', exact: true, element: <MasterBathroom /> },
-      { path: '/sample-page', exact: true, element: <SamplePage /> },
-      { path: '/icons', exact: true, element: <Icons /> },
-      { path: '/pipeline/typography', exact: true, element: <TypographyPage /> },
-      { path: '/pipeline/shadow', exact: true, element: <Shadow /> },
+      { path: '/quotes/masterbedroom', exact: true, element: <MasterBedroom /> },
+      { path: '/quotes/livingroom', exact: true, element: <LivingRoom /> },
+      { path: '/quotes/pool', exact: true, element: <Pool /> },
+      { path: '/quotes/painting', exact: true, element: <Painting /> },
       { path: '/pipeline/approved', exact: true, element: <Approved /> },
       { path: '/pipeline/scheduled', exact: true, element: <Scheduled /> },
       { path: '/pipeline/completed', exact: true, element: <Completed /> },
@@ -47,8 +45,6 @@ const Router = [
     element: <BlankLayout />,
     children: [
       { path: '404', element: <Error /> },
-      { path: '/auth/register', element: <Register /> },
-      { path: '/auth/login', element: <Login /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

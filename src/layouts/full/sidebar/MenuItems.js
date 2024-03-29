@@ -1,6 +1,6 @@
 import {
   IconAperture, IconCopy, IconLogin, IconMoodHappy, IconTypography, IconUserPlus, IconClipboardCheck, IconBath, IconToolsKitchen2, IconBuildingWarehouse,
-  IconCalendarTime, IconThumbUp, IconAddressBook
+  IconCalendarTime, IconThumbUp, IconAddressBook, IconPaint, IconBed, IconDeviceTv, IconPool
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -30,20 +30,32 @@ const Menuitems = [
     href: '/quotes/masterbathroom',
   },
   {
+    id: uniqueId(),
+    title: 'Painting',
+    icon: IconPaint,
+    href: '/quotes/painting',
+  },
+  {
+    id: uniqueId(),
+    title: 'Master Bedroom',
+    icon: IconBed,
+    href: '/quotes/masterbedroom',
+  }, 
+  {
+    id: uniqueId(),
+    title: 'Living Room',
+    icon: IconDeviceTv,
+    href: '/quotes/livingroom',
+  },
+  {
+    id: uniqueId(),
+    title: 'Pool',
+    icon: IconPool,
+    href: '/quotes/pool',
+  },
+  {
     navlabel: true,
     subheader: 'Pipeline',
-  },
-  {
-    id: uniqueId(),
-    title: 'Typography',
-    icon: IconTypography,
-    href: '/pipeline/typography',
-  },
-  {
-    id: uniqueId(),
-    title: 'Shadow',
-    icon: IconCopy,
-    href: '/pipeline/shadow',
   },
   {
     id: uniqueId(),
@@ -68,39 +80,7 @@ const Menuitems = [
     title: 'Summary',
     icon: IconAddressBook,
     href: '/pipeline/summary',
-  },
-  {
-    navlabel: true,
-    subheader: 'Auth',
-  },
-  {
-    id: uniqueId(),
-    title: 'Login',
-    icon: IconLogin,
-    href: '/auth/login',
-  },
-  {
-    id: uniqueId(),
-    title: 'Register',
-    icon: IconUserPlus,
-    href: '/auth/register',
-  },
-  {
-    navlabel: true,
-    subheader: 'Extra',
-  },
-  {
-    id: uniqueId(),
-    title: 'Icons',
-    icon: IconMoodHappy,
-    href: '/icons',
-  },
-  {
-    id: uniqueId(),
-    title: 'Sample Page',
-    icon: IconAperture,
-    href: '/sample-page',
-  },
+  }
 ];
 
 export default Menuitems;

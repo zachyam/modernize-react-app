@@ -11,6 +11,10 @@ export const QUOTE_TYPE = {
   KITCHEN: 'Kitchen',
   ROOF: 'Roof',
   BATHROOM: 'Bathroom',
+  PAINTING: 'Painting',
+  MASTERBEDROOM: 'MasterBedroom',
+  LIVINGROOM: 'LivingRoom',
+  POOL: 'Pool'
   ///...etc
 };
 

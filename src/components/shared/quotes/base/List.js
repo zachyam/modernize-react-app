@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import DashboardCard from '../../DashboardCard';
 import { QUOTE_STATUS } from 'src/context/Quotes/defs';
-import { formatThousands } from 'src/utils/amount';
 import { Box, Tooltip } from '@mui/material';
 import { QuoteRowOptionsMenu } from './RowOptionMenu';
 export const quoteStatusLabelStyle = (q) => {
@@ -127,7 +126,7 @@ const BaseQuotesList = ({ quotes, title, mainButton, actionBtnRenderer, renderFi
                   ></Chip>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">${formatThousands(quote.quote_amount)}k</Typography>
+                  <Typography variant="h6">${quote.quote_amount}</Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="h6">

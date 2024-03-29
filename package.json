@@ -37,6 +37,7 @@
     "react-spring": "^9.2.4",
     "stylis-plugin-rtl": "^2.0.2",
     "util": "npm:util@0.12.5",
+    "surge": "^0.23.1",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5",
     "yup": "^0.32.11"
